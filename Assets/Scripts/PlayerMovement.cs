@@ -16,13 +16,15 @@ public class PlayerMovement : MonoBehaviour
     private PlayerController playerController;
 
     private Vector2 moveInput;
-    private bool isJumping = false;
+    private float mobileInputX = 0f;
+
     private bool isRunning = false;
+    private bool isJumping = false;
     private bool isAttacking = false;
     private bool isThrowing = false;
     private bool isHit = false;
 
-    private enum MovementState { idle, run, jump, attack, throwObj, hit }
+    private enum MovementState { idle, walk, run, jump, fall, attack, throwObj, hit }
 
     [Header("Jump Settings")]
     [SerializeField] private LayerMask jumpableGround;
@@ -35,12 +37,12 @@ public class PlayerMovement : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         coll = GetComponent<BoxCollider2D>();
 
-        playerController = new PlayerController(); // Instantiate PlayerController
+        playerController = new PlayerController();
     }
 
     private void OnEnable()
     {
-        playerController.Enable(); // Enable PlayerController
+        playerController.Enable();
 
         playerController.Movement.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         playerController.Movement.Move.canceled += ctx => moveInput = Vector2.zero;
@@ -56,27 +58,39 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        playerController.Disable(); // Disable PlayerController
+        playerController.Disable();
     }
 
     private void Update()
     {
-        moveInput = playerController.Movement.Move.ReadValue<Vector2>();
+        if (Application.isMobilePlatform)
+        {
+            moveInput = new Vector2(mobileInputX, 0f);
+        }
+        else
+        {
+            moveInput = playerController.Movement.Move.ReadValue<Vector2>();
+        }
     }
 
     private void FixedUpdate()
     {
-        // Determine movement speed based on running or walking
+        float inputX = moveInput.x + mobileInputX;
         float speed = isRunning ? runSpeed : moveSpeed;
-        Vector2 targetVelocity = new Vector2(moveInput.x * speed, rb.velocity.y);
-        rb.velocity = targetVelocity;
+        rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
 
         UpdateAnimation();
+
+        if (IsGrounded() && Mathf.Abs(rb.velocity.y) < 0.01f)
+        {
+            isJumping = false;
+        }
     }
 
     private void UpdateAnimation()
     {
         MovementState state;
+        float horizontal = moveInput.x != 0 ? moveInput.x : mobileInputX;
 
         if (isHit)
         {
@@ -90,41 +104,38 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.throwObj;
         }
-        else if (!IsGrounded()) // Player is jumping
+        else if (rb.velocity.y > 0.1f)
         {
             state = MovementState.jump;
         }
-        else if (moveInput.x != 0f)
+        else if (rb.velocity.y < -0.1f)
         {
-            state = MovementState.run;
-            sprite.flipX = moveInput.x < 0f; // Flip sprite depending on direction
+            state = MovementState.fall;
+        }
+        else if (horizontal != 0f)
+        {
+            state = isRunning ? MovementState.run : MovementState.walk;
+            sprite.flipX = horizontal < 0f;
         }
         else
         {
             state = MovementState.idle;
         }
 
-        anim.SetInteger("state", (int)state); // Set animation state based on current state
+        anim.SetInteger("state", (int)state);
     }
 
     private bool IsGrounded()
     {
-        // Check if the player is grounded using BoxCast
-        return Physics2D.BoxCast(
-            coll.bounds.center,
-            coll.bounds.size,
-            0f,
-            Vector2.down,
-            .1f,
-            jumpableGround
-        );
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
 
     private void Jump()
     {
-        if (IsGrounded()) // Only jump if grounded
+        if (IsGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce); // Apply jump force
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            isJumping = true;
         }
     }
 
@@ -143,10 +154,32 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
 
-        yield return new WaitForSeconds(0.5f); // Adjust this time according to animation length
+        yield return new WaitForSeconds(0.5f);
 
         isAttacking = false;
         isThrowing = false;
         isHit = false;
+    }
+
+    // Mobile UI Button Methods
+    public void MoveRight(bool isPressed)
+    {
+        if (isPressed)
+            mobileInputX = 1f;
+        else if (mobileInputX == 1f)
+            mobileInputX = 0f;
+    }
+
+    public void MoveLeft(bool isPressed)
+    {
+        if (isPressed)
+            mobileInputX = -1f;
+        else if (mobileInputX == -1f)
+            mobileInputX = 0f;
+    }
+
+    public void MobileJump()
+    {
+        Jump();
     }
 }
