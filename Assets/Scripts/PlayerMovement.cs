@@ -2,10 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Health System")]
+    public int maxHealth = 100;
+    private int currentHealth;
+    public TextMeshProUGUI healthText;
+
+    [Header("Knockback Settings")]
+    [SerializeField] private float knockBackTime = 0.2f;
+    [SerializeField] private float knockBackThrust = 10f;
+
+    private bool isKnockedBack = false;
+
     [Header("Player Movement")]
+
     public float moveSpeed = 5f;
     public float runSpeed = 8f;
     public float jumpForce = 10f;
@@ -38,6 +51,9 @@ public class PlayerMovement : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
 
         playerController = new PlayerController();
+
+        currentHealth = maxHealth;
+        UpdateHealthUI();
     }
 
     private void OnEnable()
@@ -75,6 +91,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isKnockedBack) return; //false ketika terkena knockback
+
         float inputX = moveInput.x + mobileInputX;
         float speed = isRunning ? runSpeed : moveSpeed;
         rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
@@ -181,5 +199,39 @@ public class PlayerMovement : MonoBehaviour
     public void MobileJump()
     {
         Jump();
+    }
+
+    public void TakeDamage(int damage, Vector2 direction)
+    {
+        if (isKnockedBack) return; // Jangan stack knockback
+
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            Debug.Log("Player Mati");
+        }
+
+        StartCoroutine(HandleKnockback(direction.normalized));
+        UpdateHealthUI();
+    }
+
+private void UpdateHealthUI()
+    {
+        if (healthText != null)
+            healthText.text = "Health: " + currentHealth;
+    }
+
+    private IEnumerator HandleKnockback(Vector2 direction)
+    {
+        isKnockedBack = true;
+        rb.velocity = Vector2.zero;
+
+        Vector2 force = direction * knockBackThrust * rb.mass;
+        rb.AddForce(force, ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(knockBackTime);
+        rb.velocity = Vector2.zero;
+        isKnockedBack = false;
     }
 }

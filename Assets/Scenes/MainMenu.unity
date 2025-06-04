@@ -157,10 +157,10 @@ RectTransform:
   m_Father: {fileID: 1020560424}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.37079677, y: 0.4805289}
-  m_AnchorMax: {x: 0.63166815, y: 0.62}
-  m_AnchoredPosition: {x: -0.24949646, y: -1.6457996}
-  m_SizeDelta: {x: -0.49900055, y: 4.7085}
+  m_AnchorMin: {x: 0.38730443, y: 0.04132764}
+  m_AnchorMax: {x: 0.60786957, y: 0.25846213}
+  m_AnchoredPosition: {x: 0.44000244, y: -0.47998047}
+  m_SizeDelta: {x: 0.8799019, y: 5.1253967}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &88627306
 MonoBehaviour:
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 53403c4a2b7a4a34e8866d1874c5bd99, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3e615054d7fe55746add99c80fb8ea2a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -289,10 +289,10 @@ RectTransform:
   m_Father: {fileID: 1020560424}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.36333403, y: 0.64871675}
-  m_AnchorMax: {x: 0.63166815, y: 1}
-  m_AnchoredPosition: {x: -1.3829956, y: -0.1742096}
-  m_SizeDelta: {x: 1.7680016, y: -0.3484}
+  m_AnchorMin: {x: 0.36333403, y: 0.40800002}
+  m_AnchorMax: {x: 0.64400005, y: 0.8021932}
+  m_AnchoredPosition: {x: 2.2709045, y: 0.5}
+  m_SizeDelta: {x: -0.48600006, y: 6.1435013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &170699472
 MonoBehaviour:
@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 516713935}
   - component: {fileID: 516713934}
   m_Layer: 5
-  m_Name: creditsbtn
+  m_Name: itemsbtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -366,10 +366,10 @@ RectTransform:
   m_Father: {fileID: 1020560424}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.37079677, y: 0.27929592}
-  m_AnchorMax: {x: 0.645833, y: 0.44788143}
-  m_AnchoredPosition: {x: -5.5, y: 1.3222961}
-  m_SizeDelta: {x: -2.9998999, y: -4.6491013}
+  m_AnchorMin: {x: 0.09265222, y: 0.04132764}
+  m_AnchorMax: {x: 0.314, y: 0.25846213}
+  m_AnchoredPosition: {x: -2, y: -1.3778076}
+  m_SizeDelta: {x: -0.057, y: 7.535}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &516713934
 MonoBehaviour:
@@ -447,7 +447,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 37b362f7fe2729c4db2b389a7a7c98d9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 172f82371dc379a418e0f71f2c21448d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -623,7 +623,7 @@ GameObject:
   - component: {fileID: 905972176}
   - component: {fileID: 905972175}
   m_Layer: 5
-  m_Name: exitbtn
+  m_Name: levelsbtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -644,10 +644,10 @@ RectTransform:
   m_Father: {fileID: 1020560424}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.37079677, y: 0.13800001}
-  m_AnchorMax: {x: 0.64000005, y: 0.27929592}
-  m_AnchoredPosition: {x: -2.296997, y: -3.9259949}
-  m_SizeDelta: {x: 2, y: -2.1479988}
+  m_AnchorMin: {x: 0.6937827, y: 0.04132764}
+  m_AnchorMax: {x: 0.91200006, y: 0.25846213}
+  m_AnchoredPosition: {x: -3.998993, y: -0.11880493}
+  m_SizeDelta: {x: 4.021, y: 5.017}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &905972175
 MonoBehaviour:
@@ -713,7 +713,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a60fa5a202d100248b98fcf8e35b5a8b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 05c78a7e3df8b654bbdf49ba7cc72b07, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1184,7 +1184,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35044524, y: 0.066}
   m_AnchorMax: {x: 0.6531484, y: 0.112}
-  m_AnchoredPosition: {x: -1.5, y: 1.5}
+  m_AnchoredPosition: {x: -1.5, y: 1.4999695}
   m_SizeDelta: {x: 5, y: 7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1506573048
