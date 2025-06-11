@@ -79,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (PauseManagerStatic.IsPaused()) return;
+
         if (Application.isMobilePlatform)
         {
             moveInput = new Vector2(mobileInputX, 0f);
@@ -91,6 +93,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (PauseManager.isPaused || isKnockedBack) return;
+
         if (isKnockedBack) return; //false ketika terkena knockback
 
         float inputX = moveInput.x + mobileInputX;
@@ -216,7 +220,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateHealthUI();
     }
 
-private void UpdateHealthUI()
+    private void UpdateHealthUI()
     {
         if (healthText != null)
             healthText.text = "Health: " + currentHealth;
@@ -234,4 +238,15 @@ private void UpdateHealthUI()
         rb.velocity = Vector2.zero;
         isKnockedBack = false;
     }
+    
+    public static class PauseManagerStatic
+{
+    public static bool isPaused = false;
+
+    public static bool IsPaused()
+    {
+        return Time.timeScale == 0f || isPaused;
+    }
+}
+
 }
