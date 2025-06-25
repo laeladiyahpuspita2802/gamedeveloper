@@ -1,39 +1,49 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PauseManager : MonoBehaviour
 {
-    public static bool isPaused = false;
-    public GameObject pausePanel;
+    public GameObject pauseMenuUI;  // Drag panel Pause Menu ke sini di Inspector
 
-    public void TogglePause() // <-- bisa dipanggil dari Button
+    private bool isPaused = false;
+
+    void Start()
+    {
+        // Pastikan game berjalan normal saat scene dimulai
+        Time.timeScale = 1f;
+
+        // Sembunyikan panel pause
+        if (pauseMenuUI != null)
+        {
+            pauseMenuUI.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("PauseMenuUI belum di-assign di Inspector!");
+        }
+    }
+
+    public void TogglePause()
     {
         isPaused = !isPaused;
 
         if (isPaused)
         {
             Time.timeScale = 0f;
-            if (pausePanel != null)
-                pausePanel.SetActive(true);
+            if (pauseMenuUI != null)
+            {
+                pauseMenuUI.SetActive(true);
+                Debug.Log("Game dipause. Menampilkan panel pause.");
+            }
         }
         else
         {
             Time.timeScale = 1f;
-            if (pausePanel != null)
-                pausePanel.SetActive(false);
+            if (pauseMenuUI != null)
+            {
+                pauseMenuUI.SetActive(true);
+                Debug.Log("Game dilanjutkan. Menyembunyikan panel pause.");
+            }
         }
-    }
-
-    public void ResumeGame() // Button resume
-    {
-        isPaused = false;
-        Time.timeScale = 1f;
-        if (pausePanel != null)
-            pausePanel.SetActive(false);
-    }
-
-    public void QuitGame() // Button quit
-    {
-        Debug.Log("Keluar dari game");
-        Application.Quit();
     }
 }

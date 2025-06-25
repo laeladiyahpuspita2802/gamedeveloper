@@ -79,7 +79,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (PauseManagerStatic.IsPaused()) return;
 
         if (Application.isMobilePlatform)
         {
@@ -93,7 +92,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (PauseManager.isPaused || isKnockedBack) return;
 
         if (isKnockedBack) return; //false ketika terkena knockback
 
@@ -238,15 +236,5 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = Vector2.zero;
         isKnockedBack = false;
     }
-    
-    public static class PauseManagerStatic
-{
-    public static bool isPaused = false;
-
-    public static bool IsPaused()
-    {
-        return Time.timeScale == 0f || isPaused;
-    }
-}
 
 }
