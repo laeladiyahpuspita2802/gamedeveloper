@@ -1,49 +1,59 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
-    public GameObject pauseMenuUI;  // Drag panel Pause Menu ke sini di Inspector
+    public GameObject pauseMenuUI;     // Panel berisi Resume + Main Menu
+    public GameObject pauseButtonUI;   // Tombol pause utama
 
     private bool isPaused = false;
 
     void Start()
     {
-        // Pastikan game berjalan normal saat scene dimulai
         Time.timeScale = 1f;
 
-        // Sembunyikan panel pause
         if (pauseMenuUI != null)
-        {
-            pauseMenuUI.SetActive(true);
-        }
+            pauseMenuUI.SetActive(false);
         else
-        {
-            Debug.LogWarning("PauseMenuUI belum di-assign di Inspector!");
-        }
+            Debug.LogWarning("PauseMenuUI belum di-assign!");
+
+        if (pauseButtonUI != null)
+            pauseButtonUI.SetActive(true);
+        else
+            Debug.LogWarning("PauseButtonUI belum di-assign!");
     }
 
-    public void TogglePause()
+    public void PauseGame()
     {
-        isPaused = !isPaused;
+        isPaused = true;
+        Time.timeScale = 0f;
 
-        if (isPaused)
-        {
-            Time.timeScale = 0f;
-            if (pauseMenuUI != null)
-            {
-                pauseMenuUI.SetActive(true);
-                Debug.Log("Game dipause. Menampilkan panel pause.");
-            }
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            if (pauseMenuUI != null)
-            {
-                pauseMenuUI.SetActive(true);
-                Debug.Log("Game dilanjutkan. Menyembunyikan panel pause.");
-            }
-        }
+        if (pauseMenuUI != null)
+            pauseMenuUI.SetActive(true);
+
+        if (pauseButtonUI != null)
+            pauseButtonUI.SetActive(false);
+
+        Debug.Log("Game dipause.");
+    }
+
+    public void ResumeGame()
+    {
+        isPaused = false;
+        Time.timeScale = 1f;
+
+        if (pauseMenuUI != null)
+            pauseMenuUI.SetActive(false);
+
+        if (pauseButtonUI != null)
+            pauseButtonUI.SetActive(true);
+
+        Debug.Log("Game dilanjutkan dari Resume.");
+    }
+
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu"); // Ganti sesuai nama scene MainMenu kamu
     }
 }
